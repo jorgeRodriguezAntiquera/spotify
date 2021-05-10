@@ -14,11 +14,22 @@ public class TrackServiceImpl implements TrackService {
 	
 	private int index = 0; 
 	private List<TrackDTO> tracks = new ArrayList<TrackDTO>();
+
 	@Override
-	public List<TrackDTO> getTrack() {
-		// TODO Auto-generated method stub
-		return this.tracks;
+	public List<TrackDTO> getTracks(Integer offset, Integer limit) {
+		
+		List<TrackDTO> tracks_filtered = new ArrayList<TrackDTO>();
+		
+		for (int index = 0; index < this.tracks.size(); index++) {
+			if(tracks_filtered.size() != limit & index >= offset) {
+				tracks_filtered.add(this.tracks.get(index));
+			}
+		}
+		
+		return tracks_filtered;
 	}
+	
+	
 	@Override
 	public TrackDTO createTrack(TrackDTO track) {
 		track.setId(index);
@@ -57,6 +68,4 @@ public class TrackServiceImpl implements TrackService {
 		}
 		return this.tracks.get(currentindex);
 	}
-
-	
 }

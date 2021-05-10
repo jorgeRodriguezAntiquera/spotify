@@ -6,7 +6,7 @@ import cl.uv.ici.arq.spotify.demo.controller.dto.TrackDTO;
 
 public interface TrackService {
 
-	public List<TrackDTO> getTrack();
+	public List<TrackDTO> getTracks(Integer offset, Integer limit);
 	public TrackDTO	createTrack(TrackDTO track);
 	public TrackDTO getById(Integer id);
 	public boolean  delete(Integer id);

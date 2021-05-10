@@ -2,6 +2,8 @@ package cl.uv.ici.arq.spotify.demo.controller;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,25 +14,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import cl.uv.ici.arq.spotify.demo.controller.dto.TrackDTO;
 import cl.uv.ici.arq.spotify.demo.controller.service.impl.TrackServiceImpl;
 
-import java.util.List;
-
 
 @RestController
-@RequestMapping("/tracks")
+@RequestMapping("api/tracks")
 public class TrackController {
 	@Autowired
 	TrackServiceImpl service;
-	@GetMapping
-	public ResponseEntity<List<TrackDTO>> getProperties(){
-		return new ResponseEntity<List<TrackDTO>>(service.getTrack(),HttpStatus.OK);
-	}
 	
+	@GetMapping
+	@ResponseBody
+	public ResponseEntity<List<TrackDTO>> getProperties(@RequestParam(defaultValue = "0") Integer offset, @RequestParam(defaultValue = "10") Integer limit){
+		return new ResponseEntity<List<TrackDTO>>(service.getTracks(offset, limit),HttpStatus.OK);
+	}
 	
 	@PostMapping
 	public ResponseEntity<TrackDTO> save(@RequestBody TrackDTO track) {
@@ -46,8 +48,9 @@ public class TrackController {
 		return new ResponseEntity<Boolean>(service.delete(trackId), HttpStatus.ACCEPTED);
 	}
 	
-	@PutMapping
-	public ResponseEntity<TrackDTO> update(@RequestBody  TrackDTO trackDTO) {
+	@PutMapping("/{trackId}")
+	public ResponseEntity<TrackDTO> update(@PathVariable Integer trackId, @RequestBody TrackDTO trackDTO) {
+		trackDTO.setId(trackId);
 		return new ResponseEntity<TrackDTO>(service.update(trackDTO), HttpStatus.OK);
 	}
 	
