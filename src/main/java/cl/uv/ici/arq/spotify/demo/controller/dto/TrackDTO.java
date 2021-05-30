@@ -21,7 +21,7 @@ public class TrackDTO {
 	public Integer getDuration() {
 		return duration;
 	}
-	public void setDuration(Integer duratioWn) {
+	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
 

@@ -19,8 +19,8 @@ public class TrackEntity {
 	@GeneratedValue
 	private UUID trackId;
 	
-	@Column(name = "playlist", nullable = false)
-	private UUID idPlaylist;
+	//@Column(name = "playlist", nullable = false)
+	//private UUID idPlaylist;
 	private Integer duration;
 	private String title;
 
@@ -40,9 +40,9 @@ public class TrackEntity {
 		this.trackId = trackId;
 	}
 
-	public UUID getIdPlaylist() {
+	/*public UUID getIdPlaylist() {
 		return idPlaylist;
-	}
+	}*/
 
 	public Integer getDuration() {
 		return duration;
@@ -52,9 +52,9 @@ public class TrackEntity {
 		this.duration = duration;
 	}
 
-	public void setIdPlaylist(UUID idPlaylist) {
+	/*public void setIdPlaylist(UUID idPlaylist) {
 		this.idPlaylist = idPlaylist;
-	}
+	}*/
 		
 	
 }
