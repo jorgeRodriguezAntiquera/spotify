@@ -1,24 +1,39 @@
 package cl.uv.ici.arq.spotify.demo.controller.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.reflect.TypeToken;
 
 import cl.uv.ici.arq.spotify.demo.controller.dto.TrackDTO;
+import cl.uv.ici.arq.spotify.demo.controller.entities.TrackEntity;
 import cl.uv.ici.arq.spotify.demo.controller.service.TrackService;
+import cl.uv.ici.arq.spotify.demo.mapper.MapperUtils;
+import cl.uv.ici.arq.spotify.demo.repository.TrackRepository;
 
 @Service("trackService")
 public class TrackServiceImpl implements TrackService {
 	
-	private int index = 0; 
-	private List<TrackDTO> tracks = new ArrayList<TrackDTO>();
+	@Autowired
+	TrackRepository trackRepository;
+	
+	private TrackEntity mapUserEntity(TrackDTO trackDTO) {
+		TrackEntity track = new TrackEntity();
+		
+		track.setDuration(trackDTO.getDuration());
+		track.setTitle(trackDTO.getTitle());
+
+		return track;
+	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<TrackDTO> getTracks(Integer offset, Integer limit) {
 		
-		List<TrackDTO> tracks_filtered = new ArrayList<TrackDTO>();
+		/*List<TrackDTO> tracks_filtered = new ArrayList<TrackDTO>();
 		
 		for (int index = 0; index < this.tracks.size(); index++) {
 			if(tracks_filtered.size() != limit & index >= offset) {
@@ -26,46 +41,36 @@ public class TrackServiceImpl implements TrackService {
 			}
 		}
 		
-		return tracks_filtered;
+		return tracks_filtered;*/
+		return (List<TrackDTO>) MapperUtils.mapAsList(trackRepository.findAll(), new TypeToken<List<TrackDTO>>() {}.getType());
 	}
 	
 	
 	@Override
-	public TrackDTO createTrack(TrackDTO track) {
-		track.setId(index);
-		index++;
-		this.tracks.add(track);
-		// TODO Auto-generated method stub
-		return track;
+	public TrackDTO createTrack(TrackDTO trackDTO) {
+		TrackEntity trackEntity = this.mapUserEntity(trackDTO);
+		trackEntity = this.trackRepository.save(trackEntity);
+		trackDTO = (TrackDTO) MapperUtils.map(trackEntity, TrackDTO.class);
+		return trackDTO;
+	}
+	
+	@Override
+	public TrackDTO getById(String idTrack) {
+		return (TrackDTO) MapperUtils.map(this.trackRepository.findById(UUID.fromString(idTrack)).get(), TrackDTO.class);
 	}
 	@Override
-	public TrackDTO getById(Integer id) {
-		// TODO Auto-generated method stub
-		return this.tracks.get(id);
-	}
-	@Override
-	public boolean delete(Integer track_id) {
-		// TODO Auto-generated method stub
-		boolean delete=false;
-		
-		TrackDTO trackDelete=this.tracks.stream().filter(track -> track_id.equals(track.getId())).findAny().orElse(null);
-		
-		if(trackDelete!=null) {
-			this.tracks.remove(trackDelete);
-			delete=true;
-		}	
+	public boolean delete(String trackId) {
+		boolean delete=true;		
+		this.trackRepository.deleteById(UUID.fromString(trackId));		
 		return delete;
 	}
+	
 	@Override
-	public TrackDTO update(TrackDTO track) {
-		int currentindex;
-		for (currentindex = 0; currentindex < this.tracks.size(); currentindex++) {
-			if (track.getId() == this.tracks.get(currentindex).getId()) {
-				this.tracks.get(currentindex).setDuration(track.getDuration());
-				this.tracks.get(currentindex).setTitle(track.getTitle());
-				break;
-			}
-		}
-		return this.tracks.get(currentindex);
+	public TrackDTO update(TrackDTO trackDTO) {
+		TrackEntity trackEntity = this.mapUserEntity(trackDTO);
+		trackEntity.setTrackId(UUID.fromString(trackDTO.getId()));
+		trackEntity = this.trackRepository.save(trackEntity);
+		trackDTO = (TrackDTO) MapperUtils.map(trackEntity, TrackDTO.class);
+		return trackDTO;
 	}
 }

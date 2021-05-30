@@ -39,17 +39,17 @@ public class TrackController {
 		return new ResponseEntity<>(service.createTrack(track), HttpStatus.CREATED);
 	}
 	@GetMapping("/{trackId}")
-	public ResponseEntity<TrackDTO> findById(@PathVariable Integer trackId) {
+	public ResponseEntity<TrackDTO> findById(@PathVariable String trackId) {
 		return new ResponseEntity<TrackDTO>(service.getById(trackId), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{trackId}")
-	public ResponseEntity<Boolean> delete(@PathVariable Integer trackId) {
+	public ResponseEntity<Boolean> delete(@PathVariable String trackId) {
 		return new ResponseEntity<Boolean>(service.delete(trackId), HttpStatus.ACCEPTED);
 	}
 	
 	@PutMapping("/{trackId}")
-	public ResponseEntity<TrackDTO> update(@PathVariable Integer trackId, @RequestBody TrackDTO trackDTO) {
+	public ResponseEntity<TrackDTO> update(@PathVariable String trackId, @RequestBody TrackDTO trackDTO) {
 		trackDTO.setId(trackId);
 		return new ResponseEntity<TrackDTO>(service.update(trackDTO), HttpStatus.OK);
 	}

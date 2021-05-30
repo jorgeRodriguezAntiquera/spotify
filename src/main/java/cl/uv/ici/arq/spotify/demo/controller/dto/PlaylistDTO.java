@@ -1,5 +1,10 @@
 package cl.uv.ici.arq.spotify.demo.controller.dto;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+
 public class PlaylistDTO {
 
 	private Integer id;
@@ -9,9 +14,6 @@ public class PlaylistDTO {
 	private Integer[] id_tracks;
 	public Integer getId() {
 		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -37,5 +39,8 @@ public class PlaylistDTO {
 	public void setId_tracks(Integer[] id_tracks) {
 		this.id_tracks = id_tracks;
 	}
-	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 }

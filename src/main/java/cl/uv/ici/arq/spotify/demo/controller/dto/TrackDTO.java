@@ -2,14 +2,14 @@ package cl.uv.ici.arq.spotify.demo.controller.dto;
 
 public class TrackDTO {
 	
-	private Integer id;
+	private String id;
 	private String title;
-	private Integer id_playlist;
+	//private String idPlaylist;
 	private Integer duration;
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getTitle() {
@@ -18,17 +18,13 @@ public class TrackDTO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Integer getId_playlist() {
-		return id_playlist;
-	}
-	public void setId_playlist(Integer id_playlist) {
-		this.id_playlist = id_playlist;
-	}
 	public Integer getDuration() {
 		return duration;
 	}
-	public void setDuration(Integer duration) {
+	public void setDuration(Integer duratioWn) {
 		this.duration = duration;
 	}
+
+	
 
 }
