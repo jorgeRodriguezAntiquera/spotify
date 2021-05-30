@@ -32,16 +32,7 @@ public class TrackServiceImpl implements TrackService {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<TrackDTO> getTracks(Integer offset, Integer limit) {
-		
-		/*List<TrackDTO> tracks_filtered = new ArrayList<TrackDTO>();
-		
-		for (int index = 0; index < this.tracks.size(); index++) {
-			if(tracks_filtered.size() != limit & index >= offset) {
-				tracks_filtered.add(this.tracks.get(index));
-			}
-		}
-		
-		return tracks_filtered;*/
+	
 		return (List<TrackDTO>) MapperUtils.mapAsList(trackRepository.findAll(), new TypeToken<List<TrackDTO>>() {}.getType());
 	}
 	
